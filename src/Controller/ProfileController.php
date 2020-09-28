@@ -18,6 +18,8 @@ use App\Repository\PortraitRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+use App\Service\S3Service;
+
 class ProfileController extends AbstractController{
 
   private $current_user;
@@ -49,7 +51,8 @@ class ProfileController extends AbstractController{
   public function add_photo(Request $request, 
                             SessionInterface $session, 
                             SluggerInterface $slugger,
-                            EntityManagerInterface $em
+                            EntityManagerInterface $em,
+                            S3Service $s3
                           ){
     
     $user = $this->getCurrentUser();
@@ -60,17 +63,27 @@ class ProfileController extends AbstractController{
     $safeFilename = $slugger->slug($originalFilename);
     $fileName = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
 
-    $target_directory = "./uploads";
+    // $target_directory = "./uploads";
 
-    $uploadedFile->move(
-      $target_directory,
-      $fileName
-    );
+    // $uploadedFile->move(
+    //   $target_directory,
+    //   $fileName
+    // );
+
+    $target_directory = "supinternet/php2021/monalisa";
+    $s3->upload(file_get_contents($uploadedFile->getPathname()), 
+                $target_directory."/".$fileName, 
+                $uploadedFile->getMimeType(),
+                "private"
+              );
+    // https://troisyaourts.s3-eu-west-1.amazonaws.com/supinternet/php2021/enonce.pdf
 
     $portrait = new Portrait();
     $portrait->setTitle($request->request->get("title") ?? "Untitled photo");
     $portrait->setDescription($request->request->get("description") ?? "No description");
-    $portrait->setFilename("/uploads/".$fileName);
+    $portrait->setFilename("https://transfer.troisyaourts.com"
+                            ."/".$target_directory
+                            ."/".$fileName);
     $portrait->setOwner($user);
 
     $em->persist($portrait);
