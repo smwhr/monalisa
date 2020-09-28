@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+      <div class="section">
+        <div class="columns">
+          <div class="column has-text-centered">
+            <h1 class="title" style="color: ghostwhite;">{{ user }}</h1><br>
+          </div>
+        </div>
+        <div id="app" class="row columns is-multiline">
+          {% for photo in photos %}
+            <div class="column is-4">
+              <div class="card large">
+                <div class="card-image">
+                  <figure class="image is-16by9">
+                    <img src="{{ photo.filename }}" alt="Image">
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-content">
+                      <p class="title is-4 no-padding">{{photo.title}}</p>
+                      <p>
+                        <span class="title is-6">
+                          <a href="http://twitter.com/{{user}}"> {{user}} </a> </span> </p>
+                    </div>
+                  </div>
+                  <div class="content">
+                    {{photo.description}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+            <div class="column is-4">
+              <div class="card large">
+                <div class="card-content">
+                  <form method="POST" action="/profile/add_photo" enctype="multipart/form-data">
+                    <p class="title is-4 no-padding">Add a pic</p>
+                    {% include 'partial/upload_form.html.twig' %}
+                    <button class="button is-info is-rounded">
+                      <span class="icon is-small">
+                          <i class="fas fa-plus"></i>
+                        </span> <span>Ajouter</span>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

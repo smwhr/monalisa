@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+        <link rel="stylesheet" type="text/css" href="/css/monalisa.css">
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+      {% if user is defined %}
+        <nav class="navbar">
+          <div class="container">
+            <div class="navbar-brand">
+              <a class="navbar-item" href="#">
+                <img src="https://cdn.emk.dev/templates/bulma-logo-light.png" alt="Logo"> MonaLisa - Portrait gallery
+              </a>
+              <span class="navbar-burger burger" data-target="navbarMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </div>
+            <div id="navbarMenu" class="navbar-menu">
+              <div class="navbar-end">
+                <a class="navbar-item" href="logout">
+                  Logout
+                </a>
+              </div>
+            </div>
+          </div>
+        </nav>
+        {% endif %}
+        {% block body %}{% endblock %}
+        <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

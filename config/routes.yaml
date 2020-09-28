@@ -1,0 +1,23 @@
+index:
+   path: /
+   controller: App\Controller\DefaultController::index
+
+login:
+    path: /login
+    controller: App\Controller\DefaultController::login
+    methods: POST
+
+logout:
+    path: /logout
+    controller: App\Controller\DefaultController::logout
+    methods: GET
+
+profile:
+    path: /profile
+    controller: App\Controller\ProfileController::profile
+    methods: GET
+
+add_photo:
+    path: /profile/add_photo
+    controller: App\Controller\ProfileController::add_photo
+    methods: POST
